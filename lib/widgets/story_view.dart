@@ -36,10 +36,10 @@ class StoryItem {
   final Widget view;
 
   StoryItem(
-    this.view, {
-    this.duration,
-    this.shown = false,
-  }) : assert(duration != null, "[duration] should not be null");
+      this.view, {
+        this.duration,
+        this.shown = false,
+      }) : assert(duration != null, "[duration] should not be null");
 
   /// Short hand to create text-only page.
   ///
@@ -85,10 +85,10 @@ class StoryItem {
           child: Text(
             title,
             style: textStyle?.copyWith(
-                  color: contrast > 1.8 ? Colors.white : Colors.black,
-                ) ??
+              color: contrast > 1.8 ? Colors.red : Colors.black,
+            ) ??
                 TextStyle(
-                  color: contrast > 1.8 ? Colors.white : Colors.black,
+                  color: contrast > 1.8 ? Colors.red : Colors.black,
                   fontSize: 18,
                 ),
             textAlign: TextAlign.center,
@@ -104,57 +104,19 @@ class StoryItem {
   /// Factory constructor for page images. [controller] should be same instance as
   /// one passed to the `StoryView`
   factory StoryItem.pageImage({
-    @required String url,
     @required StoryController controller,
-    BoxFit imageFit = BoxFit.fitWidth,
-    String caption,
-    bool shown = false,
-    Map<String, dynamic> requestHeaders,
     Duration duration,
+    Widget child ,
   }) {
-    return StoryItem(
-      Container(
-        color: Colors.black,
-        child: Stack(
-          children: <Widget>[
-            StoryImage.url(
-              url,
-              controller: controller,
-              fit: imageFit,
-              requestHeaders: requestHeaders,
-            ),
-            SafeArea(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    bottom: 24,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 8,
-                  ),
-                  color: caption != null ? Colors.black54 : Colors.transparent,
-                  child: caption != null
-                      ? Text(
-                          caption,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      : SizedBox(),
-                ),
-              ),
-            )
-          ],
+    return //Container();
+      StoryItem(
+        Container(
+          color: Colors.white,
+          child: child,
         ),
-      ),
-      shown: shown,
-      duration: duration ?? Duration(seconds: 3),
-    );
+        shown: false,
+        duration: duration ?? Duration(seconds: 3),
+      );
   }
 
   /// Shorthand for creating inline image. [controller] should be same instance as
@@ -175,7 +137,7 @@ class StoryItem {
         child: Container(
           color: Colors.grey[100],
           child: Container(
-            color: Colors.black,
+            color: Colors.white,
             child: Stack(
               children: <Widget>[
                 StoryImage.url(
@@ -212,17 +174,17 @@ class StoryItem {
   /// Shorthand for creating page video. [controller] should be same instance as
   /// one passed to the `StoryView`
   factory StoryItem.pageVideo(
-    String url, {
-    @required StoryController controller,
-    Duration duration,
-    BoxFit imageFit = BoxFit.fitWidth,
-    String caption,
-    bool shown = false,
-    Map<String, dynamic> requestHeaders,
-  }) {
+      String url, {
+        @required StoryController controller,
+        Duration duration,
+        BoxFit imageFit = BoxFit.fitWidth,
+        String caption,
+        bool shown = false,
+        Map<String, dynamic> requestHeaders,
+      }) {
     return StoryItem(
         Container(
-          color: Colors.black,
+          color: Colors.white,
           child: Stack(
             children: <Widget>[
               StoryVideo.url(
@@ -238,13 +200,13 @@ class StoryItem {
                     margin: EdgeInsets.only(bottom: 24),
                     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                     color:
-                        caption != null ? Colors.black54 : Colors.transparent,
+                    caption != null ? Colors.white : Colors.transparent,
                     child: caption != null
                         ? Text(
-                            caption,
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                            textAlign: TextAlign.center,
-                          )
+                      caption,
+                      style: TextStyle(fontSize: 15, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    )
                         : SizedBox(),
                   ),
                 ),
@@ -260,16 +222,16 @@ class StoryItem {
   /// or `NetworkImage`. However, the story continues to play while the image loads
   /// up.
   factory StoryItem.pageProviderImage(
-    ImageProvider image, {
-    BoxFit imageFit = BoxFit.fitWidth,
-    String caption,
-    bool shown = false,
-    Duration duration,
-  }) {
+      ImageProvider image, {
+        BoxFit imageFit = BoxFit.fitWidth,
+        String caption,
+        bool shown = false,
+        Duration duration,
+      }) {
     assert(imageFit != null, "[imageFit] should not be null");
     return StoryItem(
         Container(
-          color: Colors.black,
+          color: Colors.white,
           child: Stack(
             children: <Widget>[
               Center(
@@ -293,16 +255,16 @@ class StoryItem {
                       vertical: 8,
                     ),
                     color:
-                        caption != null ? Colors.black54 : Colors.transparent,
+                    caption != null ? Colors.white : Colors.transparent,
                     child: caption != null
                         ? Text(
-                            caption,
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          )
+                      caption,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
                         : SizedBox(),
                   ),
                 ),
@@ -318,13 +280,13 @@ class StoryItem {
   /// or `NetworkImage`. However, the story continues to play while the image loads
   /// up.
   factory StoryItem.inlineProviderImage(
-    ImageProvider image, {
-    Text caption,
-    bool shown = false,
-    bool roundedTop = true,
-    bool roundedBottom = false,
-    Duration duration,
-  }) {
+      ImageProvider image, {
+        Text caption,
+        bool shown = false,
+        bool roundedTop = true,
+        bool roundedBottom = false,
+        Duration duration,
+      }) {
     return StoryItem(
       Container(
         decoration: BoxDecoration(
@@ -404,11 +366,11 @@ class StoryView extends StatefulWidget {
     this.inline = false,
     this.onVerticalSwipeComplete,
   })  : assert(storyItems != null && storyItems.length > 0,
-            "[storyItems] should not be null or empty"),
+  "[storyItems] should not be null or empty"),
         assert(progressPosition != null, "[progressPosition] cannot be null"),
         assert(
-          repeat != null,
-          "[repeat] cannot be null",
+        repeat != null,
+        "[repeat] cannot be null",
         ),
         assert(inline != null, "[inline] cannot be null");
 
@@ -460,28 +422,28 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
 
     this._playbackSubscription =
         widget.controller.playbackNotifier.listen((playbackStatus) {
-      switch (playbackStatus) {
-        case PlaybackState.play:
-          _removeNextHold();
-          this._animationController?.forward();
-          break;
+          switch (playbackStatus) {
+            case PlaybackState.play:
+              _removeNextHold();
+              this._animationController?.forward();
+              break;
 
-        case PlaybackState.pause:
-          _holdNext(); // then pause animation
-          this._animationController?.stop(canceled: false);
-          break;
+            case PlaybackState.pause:
+              _holdNext(); // then pause animation
+              this._animationController?.stop(canceled: false);
+              break;
 
-        case PlaybackState.next:
-          _removeNextHold();
-          _goForward();
-          break;
+            case PlaybackState.next:
+              _removeNextHold();
+              _goForward();
+              break;
 
-        case PlaybackState.previous:
-          _removeNextHold();
-          _goBack();
-          break;
-      }
-    });
+            case PlaybackState.previous:
+              _removeNextHold();
+              _goBack();
+              break;
+          }
+        });
 
     _play();
   }
@@ -612,7 +574,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.red,
       child: Stack(
         children: <Widget>[
           _currentView,
@@ -662,37 +624,37 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                 onVerticalDragStart: widget.onVerticalSwipeComplete == null
                     ? null
                     : (details) {
-                        widget.controller.pause();
-                      },
+                  widget.controller.pause();
+                },
                 onVerticalDragCancel: widget.onVerticalSwipeComplete == null
                     ? null
                     : () {
-                        widget.controller.play();
-                      },
+                  widget.controller.play();
+                },
                 onVerticalDragUpdate: widget.onVerticalSwipeComplete == null
                     ? null
                     : (details) {
-                        if (verticalDragInfo == null) {
-                          verticalDragInfo = VerticalDragInfo();
-                        }
+                  if (verticalDragInfo == null) {
+                    verticalDragInfo = VerticalDragInfo();
+                  }
 
-                        verticalDragInfo.update(details.primaryDelta);
+                  verticalDragInfo.update(details.primaryDelta);
 
-                        // TODO: provide callback interface for animation purposes
-                      },
+                  // TODO: provide callback interface for animation purposes
+                },
                 onVerticalDragEnd: widget.onVerticalSwipeComplete == null
                     ? null
                     : (details) {
-                        widget.controller.play();
-                        // finish up drag cycle
-                        if (!verticalDragInfo.cancel &&
-                            widget.onVerticalSwipeComplete != null) {
-                          widget.onVerticalSwipeComplete(
-                              verticalDragInfo.direction);
-                        }
+                  widget.controller.play();
+                  // finish up drag cycle
+                  if (!verticalDragInfo.cancel &&
+                      widget.onVerticalSwipeComplete != null) {
+                    widget.onVerticalSwipeComplete(
+                        verticalDragInfo.direction);
+                  }
 
-                        verticalDragInfo = null;
-                      },
+                  verticalDragInfo = null;
+                },
               )),
           Align(
             alignment: Alignment.centerLeft,
@@ -726,11 +688,11 @@ class PageBar extends StatefulWidget {
   final IndicatorHeight indicatorHeight;
 
   PageBar(
-    this.pages,
-    this.animation, {
-    this.indicatorHeight = IndicatorHeight.large,
-    Key key,
-  }) : super(key: key);
+      this.pages,
+      this.animation, {
+        this.indicatorHeight = IndicatorHeight.large,
+        Key key,
+      }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -776,7 +738,7 @@ class PageBarState extends State<PageBar> {
             child: StoryProgressIndicator(
               isPlaying(it) ? widget.animation.value : it.shown ? 1 : 0,
               indicatorHeight:
-                  widget.indicatorHeight == IndicatorHeight.large ? 5 : 3,
+              widget.indicatorHeight == IndicatorHeight.large ? 5 : 3,
             ),
           ),
         );
@@ -793,10 +755,10 @@ class StoryProgressIndicator extends StatelessWidget {
   final double indicatorHeight;
 
   StoryProgressIndicator(
-    this.value, {
-    this.indicatorHeight = 5,
-  }) : assert(indicatorHeight != null && indicatorHeight > 0,
-            "[indicatorHeight] should not be null or less than 1");
+      this.value, {
+        this.indicatorHeight = 5,
+      }) : assert(indicatorHeight != null && indicatorHeight > 0,
+  "[indicatorHeight] should not be null or less than 1");
 
   @override
   Widget build(BuildContext context) {
@@ -805,11 +767,11 @@ class StoryProgressIndicator extends StatelessWidget {
         this.indicatorHeight,
       ),
       foregroundPainter: IndicatorOval(
-        Colors.white.withOpacity(0.8),
+        Color.fromRGBO(189, 189, 189, 1),
         this.value,
       ),
       painter: IndicatorOval(
-        Colors.white.withOpacity(0.4),
+        Color.fromRGBO(224, 224, 224, 1),
         1.0,
       ),
     );
