@@ -660,9 +660,25 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
             alignment: Alignment.centerLeft,
             heightFactor: 1,
             child: SizedBox(
-                child: GestureDetector(onTap: () {
-                  widget.controller.previous();
-                }),
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    print("onTapDown");
+                    widget.controller.pause();
+                  },
+                  onTapCancel: () {
+                    print("onTapCancel");
+                    widget.controller.play();
+                  },
+                  onTapUp: (details) {
+                    print("tapup");
+                    // if debounce timed out (not active) then continue anim
+                    if (_nextDebouncer?.isActive == false) {
+                      widget.controller.play();
+                    } else {
+                      widget.controller.previous();
+                    }
+                  },
+                ),
                 width: 70),
           ),
         ],
